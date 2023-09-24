@@ -12,38 +12,32 @@ export const App = () => {
     const [neutral, setNeutral] = useState(0);
     const [bad, setBad] = useState(0);
 
-  clickButton = evt => {
-      this.setState(prevState => {
-          return {
-              [evt]: prevState[evt] + 1,
-          };
-      });
-  };
-
-
-  // neutralClick= ()=>{
-  //     this.setState((prevState) =>{
-  //         return{
-  //             neutral: prevState.neutral + 1,
-  //         };
-  //     }); };
-  // badClick= ()=>{
-  //     this.setState(prevState =>{
-  //         return{
-  //             bad: prevState.bad + 1,
-  //         };
-  //     }); };
-
-  countPositiveFeedbackPercentage =()=>{
-      const{good}=this.state;
-      return this.countTotalFeedback() === 0 ? 0 : (good / this.countTotalFeedback()) * 100;
-  }
-  
-  countTotalFeedback =()=>{
-     const{good, neutral, bad } = this.state;
-     return good + neutral + bad;
+    const clickButton = evt => {
+        if (evt === 'good') {
+          setGood(prevState => prevState + 1);
+        } else if (evt === 'neutral') {
+          setNeutral(prevState => prevState + 1);
+        } else if (evt === 'bad') {
+          setBad(prevState => prevState + 1);
+        } else {
+          console.log('error' + evt)
+        };
       };
-
+      
+      const countTotalFeedback = () => {
+        const result = good + neutral + bad;
+        return result;
+        };
+      
+      const countPositiveFeedbackPercentage = () => {
+          const result = countTotalFeedback();
+              if (result !== 0) {
+                  const percentage = (good * 100) / result;
+                  return Math.round(percentage);
+              }
+              return 0;
+          };
+      
 
 
   return(
@@ -51,7 +45,7 @@ export const App = () => {
       <Section  style={styles} title="Please leave feedback">
       
         
-          <FeedbackOptions title={"Please leave feedback"} options={Object.keys({ good, neutral, bad })} onLeaveFeedback={this.clickButton}  />
+          <FeedbackOptions title={"Please leave feedback"} options={Object.keys({ good, neutral, bad })} onLeaveFeedback={clickButton}  />
       </Section> 
       <Section  style={styles} title="Statistics">
      
