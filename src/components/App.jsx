@@ -3,16 +3,14 @@ import { Statistics } from "components/Statistics/Statistics";
 import { Component } from "react";
 import { Notification } from "components/Notification/Notification";
 import { Section } from "./FeedBack/FeedBack";
+import { useState } from "react";
 const styles= {
   padding: 20,
 }
-export  class App extends Component {
-  state = {
-      good: 0,
-neutral: 0,
-bad: 0,
-
-  };
+export const App = () => {
+    const [good, setGood] = useState(0);
+    const [neutral, setNeutral] = useState(0);
+    const [bad, setBad] = useState(0);
 
   clickButton = evt => {
       this.setState(prevState => {
@@ -46,17 +44,14 @@ bad: 0,
      return good + neutral + bad;
       };
 
-render(){
-const{good, neutral, bad } = this.state;
-const {countTotalFeedback,
-  countPositiveFeedbackPercentage} = this;
+
 
   return(
       <>
       <Section  style={styles} title="Please leave feedback">
       
         
-          <FeedbackOptions title={"Please leave feedback"} options={Object.keys(this.state)} onLeaveFeedback={this.clickButton}  />
+          <FeedbackOptions title={"Please leave feedback"} options={Object.keys({ good, neutral, bad })} onLeaveFeedback={this.clickButton}  />
       </Section> 
       <Section  style={styles} title="Statistics">
      
@@ -74,4 +69,4 @@ const {countTotalFeedback,
 
 
 
-};
+
